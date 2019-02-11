@@ -1,0 +1,35 @@
+<form class="example-form" [formGroup]='usersForm'>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Choose a user" [matAutocomplete]="auto" formControlName='userInput' />
+  </mat-form-field>
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+    (optionSelected)='showUser($event.option.value)'>
+    <mat-option *ngIf="isLoading" class="is-loading">
+      <mat-spinner diameter="50"></mat-spinner>
+    </mat-option>
+    <ng-container *ngIf="!isLoading">
+      <mat-option *ngFor="let user of filteredUsers" [value]="user">
+        <span>{{ user.FirstName }} | </span>
+        <span>{{ user.LastName }} | </span>
+        <span>{{ user.Address }} | </span>
+        <span>{{ user.Age }} | </span>
+        <span> {{ user.Interests }}</span>
+      </mat-option>
+    </ng-container>
+  </mat-autocomplete>
+  <mat-card class="example-card" *ngIf="selectedUser?.FirstName">
+    <mat-card-header>
+      <mat-card-title>Selected User Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <span>First Name: {{ selectedUser?.FirstName }} </span><br/>
+        <span>Last Name: {{ selectedUser?.LastName }} </span><br/>
+        <span>Address: {{ selectedUser?.Address }} </span><br/>
+        <span>Age: {{ selectedUser?.Age }} </span><br/>
+        <span>Interests: {{ selectedUser?.Interests }}</span><br/>
+        <span>Picture:
+          <img [src]="selectedUser?.PictureUrl" />
+        </span> 
+    </mat-card-content>
+  </mat-card>
+</form>
